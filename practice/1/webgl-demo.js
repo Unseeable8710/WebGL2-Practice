@@ -2,6 +2,14 @@ function main() {
   const canvas = document.querySelector("#gl-canvas");
   // Initialize the GL context
   const gl = canvas.getContext("webgl");
+  // Vertex shader program
+  const vsSource = `
+    attribute vec4 aVertexPosition;
+    uniform mat4 uModelViewMatrix;
+    uniform mat4 uProjectionMatrix;
+    void main() {
+      gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    }`;
 
   // Only continue if WebGL is available and working
   if (gl === null) {
