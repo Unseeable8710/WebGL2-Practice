@@ -1,3 +1,10 @@
+import {
+  initBuffers
+} from "./init-buffers.js";
+import {
+  drawScene
+} from "./draw-scene.js";
+
 function main() {
   const canvas = document.querySelector("#gl-canvas");
   // Initialize the GL context
@@ -14,12 +21,12 @@ function main() {
     void main() {
       gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
     }`;
-  // Initialize a shader program; this is where all the lighting
-  // for the vertices and so forth is established.
+  /* Initialize a shader program; this is where all the lighting
+  for the vertices and so forth is established. */
   const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
   // Collect all the info needed to use the shader program.
-  // Look up which attribute our shader program is using
-  // for aVertexPosition and look up uniform locations.
+  /* Look up which attribute our shader program is using
+  for aVertexPosition and look up uniform locations. */
   const programInfo = {
     program: shaderProgram,
     attribLocations: {
@@ -70,6 +77,12 @@ function loadShader(gl, type, source) {
     gl.deleteShader(shader);
     return null;
   }
+  /* Here's where we call the routine that builds all the
+  objects we'll be drawing. */
+  const buffers = initBuffers(gl);
+
+  // Draw the scene
+  drawScene(gl, programInfo, buffers);
   return shader;
 }
 
